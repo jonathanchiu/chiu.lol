@@ -1,4 +1,4 @@
-export default {
+const theme = {
     "space": [
       0,
       4,
@@ -11,8 +11,8 @@ export default {
       512
     ],
     "fonts": {
-      "body": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", sans-serif",
-      "heading": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", sans-serif",
+      "body": "\"Work Sans\", sans-serif",
+      "heading": "\"Work Sans\", sans-serif",
       "monospace": "Menlo, monospace"
     },
     "fontSizes": [
@@ -44,17 +44,7 @@ export default {
       "muted": "#e6e6e6",
       "gray": "#dfe3e8",
       "accent": "#f49342",
-      "darken": "#00044c",
-      "modes": {
-        "dark": {
-          "text": "#3e4155",
-          "background": "#000639",
-          "primary": "#9c6ade",
-          "secondary": "#b4e1fa",
-          "highlight": "#b7ecec",
-          "muted": "#e6e6e6"
-        }
-      }
+      "darken": "#00044c"
     },
     "styles": {
       "root": {
@@ -141,4 +131,6 @@ export default {
         "maxWidth": "100%"
       }
     }
-  }
+};
+
+export default theme;

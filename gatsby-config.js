@@ -4,12 +4,7 @@ module.exports = {
     title: "chiu.lol",
   },
   plugins: [
-    {
-      resolve: `gatsby-plugin-theme-ui`,
-      options: {
-        preset: "@theme-ui/preset-polaris",
-      },
-    },
+    "gatsby-plugin-theme-ui",
     "gatsby-plugin-image",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
