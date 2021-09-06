@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-a:hover {
-    @apply text-blue-500;
+$color-peach: #ffd6c7;
+
+::selection {
+    background: $color-peach;
+}
+
+html {
+    font-family: 'Work Sans', sans-serif;
+}
+
+.serif {
+    font-family: 'PT Serif', serif;
 }

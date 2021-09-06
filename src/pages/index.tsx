@@ -1,22 +1,45 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
+import Layout from '../components/layout';
 
 const IndexPage = () => {
     return (
-        <>
-            <Helmet>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-                <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-            </Helmet>
-            <div className="container mx-auto px-32 py-14">
-                <div className="header">
-                <a className="hover:text-blue-500" href="/">
-                    <h1 className="text-md">Jonathan Chiu</h1>
-                </a>
-                </div>
+        <Layout>
+            <section className="container mt-28">
+                <h1 className="serif text-6xl font-bold tracking-tighter">Hello.</h1>
+            </section>
+            <section className="container">
+                <p className="mt-4 mb-6 leading-relaxed">
+                    I'm <span className="text-red-300">Jon</span>athan.
+                </p>
+                <p className="leading-relaxed">
+                    🎸 Music at <a target="_blank" className="font-bold hover:text-orange-500" href="https://soundcloud.com/jonathanchiu">Choo</a>.
+                </p>
+                <p className="leading-relaxed">
+                    👨‍💻 Senior Software Engineer at <a target="_blank" className="font-bold hover:text-green-500" href="https://skillshare.com">Skillshare</a>.
+                </p>
+                <p className="leading-relaxed">
+                    🎓 Computer Science at <a className="font-bold hover:text-red-500" href="https://www.northeastern.edu/">Northeastern University</a>.
+                </p>
+                <p>
+                    🏡 Based in <span className="font-bold">New York City</span>
+                </p>
+                <p>
+                    📧 Email at <a className="hover:text-cyan-500 font-bold" href="mailto:jonathan@chiu.lol">jonathan@chiu.lol</a>
+                </p>
+            </section>
+            <div className="container mt-28">
+                <h1 className="serif text-6xl font-bold tracking-tighter">Goodbye.</h1>
+                <p className="mt-4 mb-4 leading-relaxed">
+                    This site was built using&nbsp;
+                    <a target="_blank" className="font-bold hover:text-violet-400" href="https://www.gatsbyjs.com/">Gatsby</a>,&nbsp;
+                    <a target="_blank" className="font-bold hover:text-indigo-200" href="https://tailwindcss.com/">Tailwind</a>, and&nbsp;
+                    <a target="_blank" className="font-bold hover:text-blue-400" href="https://www.netlify.com/">Netlify</a>.
+                </p>
+                <p className="mt-6 mb-4 leading-relaxed">
+                    👋 Goodbye.
+                </p>
             </div>
-        </>
+        </Layout>
     );
 };
 
