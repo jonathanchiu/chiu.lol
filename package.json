@@ -1,40 +1,30 @@
 {
   "name": "chiu.lol",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "chiu.lol",
-  "keywords": [
-    "gatsby"
-  ],
+  "type": "module",
+  "description": "Jonathan Chiu's corner of the internet. Built with Astro.",
+  "engines": {
+    "node": ">=24.0.0",
+    "bun": ">=1.4.2"
+  },
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "dev": "bun --bun astro dev",
+    "start": "bun --bun astro dev",
+    "check": "bun --bun astro check",
+    "build": "bun --bun astro build",
+    "preview": "bun --bun astro preview"
   },
   "dependencies": {
-    "@mdx-js/mdx": "^1.6.22",
-    "@mdx-js/react": "^1.6.22",
-    "@tailwindcss/typography": "^0.4.1",
-    "autoprefixer": "^10.3.4",
-    "gatsby": "^3.13.0",
-    "gatsby-plugin-image": "^1.13.0",
-    "gatsby-plugin-manifest": "^3.13.0",
-    "gatsby-plugin-mdx": "^2.13.0",
-    "gatsby-plugin-react-helmet": "^4.13.0",
-    "gatsby-plugin-sass": "^4.13.0",
-    "gatsby-plugin-sharp": "^3.13.0",
-    "gatsby-plugin-sitemap": "^4.9.0",
-    "gatsby-source-filesystem": "^3.13.0",
-    "gatsby-transformer-sharp": "^3.13.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0",
-    "sass": "^1.39.0",
-    "tailwindcss": "^2.2.9"
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/work-sans": "^5.3.0",
+    "@fontsource/pt-serif": "^5.3.0",
+    "astro": "^7.4.7"
   },
   "devDependencies": {
-    "@types/react-helmet": "^6.1.2"
-  }
+    "@astrojs/check": "^0.9.12",
+    "@emnapi/runtime": "1.11.3",
+    "typescript": "^6"
+  },
+  "packageManager": "bun@1.4.2"
 }

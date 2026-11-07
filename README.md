@@ -1,54 +1,34 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal starter
-</h1>
+# chiu.lol
 
-## 🚀 Quick start
+Jonathan Chiu's personal site. Astro, TypeScript, and Bun; hosted on Netlify.
 
-1.  **Create a Gatsby site.**
+## Development
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+Use Bun 1.4.2 and Node 24.
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+```sh
+bun install --frozen-lockfile
+bun run dev      # localhost:4321
+bun run check    # Type checks
+bun run build    # Static output in dist/
+bun run preview  # Preview production build
+```
 
-2.  **Start developing.**
+## Editing
 
-    Navigate into your new site’s directory and start it up.
+- `src/data/`: personal details, links, and releases
+- `src/pages/`: page content
+- `src/styles/global.css`: styling
+- `src/layouts/Layout.astro`: shared layout and metadata
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+## Deployment
 
-3.  **Open the code and start customizing!**
+The existing Netlify project uses `netlify.toml`: build with `bun run check && bun run build`, publish `dist`. Commit `bun.lock`.
 
-    Your site is now running at http://localhost:8000!
+For the first deploy after Gatsby, clear the build cache, remove any Gatsby plugins in Netlify, and use a current build image.
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+If changing domains, update `astro.config.mjs` and `public/robots.txt`.
 
-4.  **Learn more**
+## Compatibility
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal)
+TypeScript 6 is required by `astro check`. `@emnapi/runtime` is pinned to 1.11.3 to match the checker's WASM core; revisit when updating Astro's language tools.
