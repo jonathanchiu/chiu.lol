@@ -6,32 +6,33 @@ import { site } from '../data/site';
 const formatDate = (date: string) => new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(date));
 ---
 <Layout title="Music by Choo" description="Songs by Choo, the music project of Jonathan Chiu. Listen to Who Cares?, Fool, Breathe, and Everytime.">
-  <section class="intro music-intro" aria-labelledby="listen">
-    <h1 id="listen">Listen<span class="accent">.</span></h1>
-    <p class="intro-description">I (rarely) make music under the name Choo.</p>
-    <div class="platform-links" aria-label="Listen to Choo">
-      <a href={site.links.spotify}>Spotify <span aria-hidden="true">↗</span></a>
-      <a href={site.links.appleMusic}>Apple Music <span aria-hidden="true">↗</span></a>
-      <a href={site.links.soundcloud}>SoundCloud <span aria-hidden="true">↗</span></a>
+  <section class="music-intro" aria-labelledby="listen">
+    <h1 id="listen">Music</h1>
+    <div class="music-intro-copy">
+      <p class="music-description">I (rarely) make music under the name Choo.</p>
+      <div class="platform-links" aria-label="Listen to Choo">
+        <a href={site.links.spotify}>Spotify</a>
+        <a href={site.links.appleMusic}>Apple Music</a>
+        <a href={site.links.soundcloud}>SoundCloud</a>
+      </div>
     </div>
   </section>
   <section class="releases" aria-labelledby="releases-title">
-    <div class="releases-heading"><h2 class="eyebrow" id="releases-title">Releases</h2><span class="eyebrow">2019 — 2021</span></div>
+    <div class="releases-heading"><h2 class="eyebrow" id="releases-title">Releases</h2></div>
     <div class="release-grid">
       {releases.map((release, index) => (
-        <article class="release">
+        <article class="release" id={release.track}>
           <a class="release-artwork" href={`https://open.spotify.com/track/${release.track}`} aria-label={`Listen to ${release.title} on Spotify`}>
             <Image src={release.artwork} alt={`${release.title} cover artwork`} widths={[320, 480, 720, 960]} sizes="(max-width: 600px) 100vw, 50vw" width={960} height={960} loading={index === 0 ? 'eager' : 'lazy'} />
-            <span class="artwork-link" aria-hidden="true">↗</span>
           </a>
-          <div class="release-meta"><h3>{release.title}</h3><span class="release-type">Single / {release.date.slice(0, 4)}</span></div>
+          <div class="release-meta"><h3>{release.title}</h3></div>
           <time datetime={release.date}>{formatDate(release.date)}</time>
           <details class="listen-details">
-            <summary>Listen to {release.title} <span aria-hidden="true">+</span></summary>
+            <summary aria-label={`Listen to ${release.title}`}>Listen</summary>
             <div class="player-slot" data-track={release.track} data-title={release.title}></div>
-            <a class="player-fallback" href={`https://open.spotify.com/track/${release.track}`}>Open in Spotify ↗</a>
+            <a class="player-fallback" href={`https://open.spotify.com/track/${release.track}`}>Open in Spotify</a>
           </details>
-          {release.youtube && <a class="video-link" href={release.youtube}>Watch the music video <span aria-hidden="true">↗</span></a>}
+          {release.youtube && <a class="video-link" href={release.youtube}>Music video</a>}
         </article>
       ))}
     </div>
