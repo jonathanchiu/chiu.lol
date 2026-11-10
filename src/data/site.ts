@@ -7,7 +7,7 @@ export const site = {
     soundcloud: 'https://soundcloud.com/jonathanchiu',
     spotify: 'https://open.spotify.com/artist/75XWZB98ncTvMwUP2sucIi',
     appleMusic: 'https://music.apple.com/us/artist/choo/1457527982',
-    instagram: 'https://instagram.com/chiuahhhh',
+    instagram: 'https://instagram.com/ahhhhhchiu',
     linkedin: 'https://www.linkedin.com/in/jonathanchiu7',
   },
 };

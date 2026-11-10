@@ -6,9 +6,9 @@ import { site } from '../data/site';
 const formatDate = (date: string) => new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(date));
 ---
 <Layout title="Music by Choo" description="Songs by Choo, the music project of Jonathan Chiu. Listen to Who Cares?, Fool, Breathe, and Everytime.">
-  <section class="music-intro" aria-labelledby="listen">
+  <section class="page-intro" aria-labelledby="listen">
     <h1 id="listen">Music</h1>
-    <div class="music-intro-copy">
+    <div class="intro-copy">
       <p class="music-description">I (rarely) make music under the name Choo.</p>
       <div class="platform-links" aria-label="Listen to Choo">
         <a href={site.links.spotify}>Spotify</a>
@@ -18,21 +18,23 @@ const formatDate = (date: string) => new Intl.DateTimeFormat('en-US', { month: '
     </div>
   </section>
   <section class="releases" aria-labelledby="releases-title">
-    <div class="releases-heading"><h2 class="eyebrow" id="releases-title">Releases</h2></div>
+    <div class="section-heading"><h2 class="eyebrow" id="releases-title">Discography</h2><span>{releases[0].date.slice(0, 4)} — {releases[releases.length - 1].date.slice(0, 4)} / {String(releases.length).padStart(2, '0')} releases</span></div>
     <div class="release-grid">
       {releases.map((release, index) => (
         <article class="release" id={release.track}>
+          <div class="release-heading"><span class="eyebrow">{String(index + 1).padStart(2, '0')} / Choo</span><h3>{release.title}</h3></div>
           <a class="release-artwork" href={`https://open.spotify.com/track/${release.track}`} aria-label={`Listen to ${release.title} on Spotify`}>
-            <Image src={release.artwork} alt={`${release.title} cover artwork`} widths={[320, 480, 720, 960]} sizes="(max-width: 600px) 100vw, 50vw" width={960} height={960} loading={index === 0 ? 'eager' : 'lazy'} />
+            <Image src={release.artwork} alt={`${release.title} cover artwork`} widths={[320, 480, 720, 960]} sizes="(max-width: 700px) calc(100vw - 40px), 33vw" width={960} height={960} loading={index === 0 ? 'eager' : 'lazy'} />
           </a>
-          <div class="release-meta"><h3>{release.title}</h3></div>
-          <time datetime={release.date}>{formatDate(release.date)}</time>
-          <details class="listen-details">
-            <summary aria-label={`Listen to ${release.title}`}>Listen</summary>
-            <div class="player-slot" data-track={release.track} data-title={release.title}></div>
-            <a class="player-fallback" href={`https://open.spotify.com/track/${release.track}`}>Open in Spotify</a>
-          </details>
-          {release.youtube && <a class="video-link" href={release.youtube}>Music video</a>}
+          <div class="release-info">
+            <time datetime={release.date}>{formatDate(release.date)}</time>
+            <details class="listen-details">
+              <summary aria-label={`Listen to ${release.title}`}>Listen</summary>
+              <div class="player-slot" data-track={release.track} data-title={release.title}></div>
+              <a class="player-fallback" href={`https://open.spotify.com/track/${release.track}`}>Open in Spotify</a>
+            </details>
+            {release.youtube && <a class="video-link" href={release.youtube}>Music video <span aria-hidden="true">↗</span></a>}
+          </div>
         </article>
       ))}
     </div>

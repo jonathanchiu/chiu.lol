@@ -30,8 +30,10 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
       <header class="site-header">
         <a class="wordmark" href="/" aria-label="Jonathan Chiu, home">chiu.lol</a>
         <nav aria-label="Main navigation">
+          <div class="nav-pages">
           <a href="/" aria-current={path === '/' ? 'page' : undefined}>About</a>
           <a href="/music/" aria-current={path === '/music' ? 'page' : undefined}>Music</a>
+          </div>
           <a class="nav-contact" href={`mailto:${site.email}`}>Email</a>
         </nav>
       </header>

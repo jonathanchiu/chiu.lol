@@ -2,28 +2,33 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import { releases } from '../data/releases';
+const featured = releases[0];
 ---
 <Layout>
-  <div class="home-composition">
-    <h1 class="home-title">Jonathan Chiu</h1>
+  <section class="page-intro" aria-labelledby="home-title">
+    <h1 id="home-title">Jonathan Chiu</h1>
+    <div class="intro-copy">
+      <p>Software engineer.<br />Music as <a href="/music/">Choo</a>.</p>
+    </div>
+  </section>
 
-    <section class="home-profile" aria-label="About Jonathan">
-      <p>Software engineer.<br />Music as <a class="inline-link" href="/music/">Choo</a>.</p>
-      <p>Computer Science at <a class="inline-link" href="https://www.northeastern.edu/">Northeastern University</a>.</p>
-    </section>
-
-    <section class="home-music" aria-labelledby="music-title">
-      <div class="gallery-heading"><h2 class="eyebrow" id="music-title">Music</h2><a class="inline-link" href="/music/">All releases</a></div>
-      <div class="home-gallery">
-        {releases.map((release) => (
-          <figure class="home-release">
-            <a class="release-artwork" href={`/music/#${release.track}`} aria-label={`Listen to ${release.title}`}>
-              <Image src={release.artwork} alt={`${release.title} cover artwork`} widths={[240, 400, 640, 960]} sizes="(max-width: 900px) 50vw, 25vw" width={960} height={960} />
-            </a>
-            <figcaption><h3><a href={`/music/#${release.track}`}>{release.title}</a></h3><span>{release.date.slice(0, 4)}</span></figcaption>
-          </figure>
-        ))}
+  <section class="home-feature" aria-labelledby="featured-title">
+    <div class="section-heading">
+      <h2 class="eyebrow" id="featured-title">Selected music</h2>
+      <a href="/music/">All releases <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-copy">
+        <span class="eyebrow">Choo / {featured.date.slice(0, 4)}</span>
+        <h3><a href={`/music/#${featured.track}`}>{featured.title}</a></h3>
+        <a class="feature-listen" href={`/music/#${featured.track}`}>Listen <span aria-hidden="true">↗</span></a>
       </div>
-    </section>
-  </div>
+      <figure class="featured-artwork">
+        <a class="release-artwork" href={`/music/#${featured.track}`} aria-label={`Listen to ${featured.title}`}>
+          <Image src={featured.artwork} alt={`${featured.title} cover artwork`} widths={[480, 720, 960, 1440]} sizes="(max-width: 700px) calc(100vw - 40px), (min-width: 1824px) 1128px, 62vw" loading="eager" fetchpriority="high" />
+        </a>
+        <figcaption class="artwork-caption"><span>01 / {featured.title}</span><span>{featured.date.slice(0, 4)}</span></figcaption>
+      </figure>
+    </div>
+  </section>
 </Layout>
