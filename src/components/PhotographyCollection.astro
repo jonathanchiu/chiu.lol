@@ -1,0 +1,22 @@
+---
+import PhotoImage from './PhotoImage.astro';
+import PhotoCaption from './PhotoCaption.astro';
+import type { Photograph } from '../data/photography';
+interface Props { id: string; title: string; photos: Photograph[]; eager?: boolean; }
+const { id, title, photos, eager = false } = Astro.props;
+---
+  <section class="photography-collection" aria-labelledby={id}>
+    <div class="section-heading">
+      <h2 class="eyebrow" id={id}>{title}</h2>
+    </div>
+    <ul class="photography-grid">
+      {photos.map(({ image, fullSize, date, alt, location, coordinates }, index) => (
+        <li>
+          <figure>
+            <PhotoImage src={image} fullSize={fullSize} alt={alt} widths={[400, 800, 1200].filter(width => width <= image.width)} sizes="(max-width: 600px) calc(100vw - 40px), (max-width: 1000px) 45vw, 30vw" loading={eager && index < 3 ? 'eager' : 'lazy'} />
+            <PhotoCaption date={date} location={location} coordinates={coordinates} />
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </section>

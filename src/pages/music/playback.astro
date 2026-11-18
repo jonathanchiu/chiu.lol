@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { playbackPlaylists } from '../../data/playback';
+---
+<Layout title="Playback — Listening archive" description="Jonathan Chiu’s SoundCloud Playback playlists, year by year from 2016 to 2025.">
+  <section class="page-intro" aria-labelledby="playback-title">
+    <h1 id="playback-title">Playback</h1>
+    <div class="intro-copy">
+      <p>Ten years of songs I had on repeat.</p>
+      <p><a href="/music/">← Music</a></p>
+    </div>
+  </section>
+  <section class="playback-archive" aria-labelledby="archive-title">
+    <div class="section-heading">
+      <h2 class="eyebrow" id="archive-title">SoundCloud Playback</h2>
+      <span>2016 — 2025</span>
+    </div>
+    <ol class="playback-list">
+      {playbackPlaylists.map(({ year, url, artwork }) => (
+        <li>
+          <a class="playback-row" target="_blank" rel="noopener noreferrer" href={url}>
+            <span class="playback-identity">
+              <Image class="playback-thumbnail" src={artwork} alt="" widths={[72, 144, 216]} sizes="(max-width: 700px) 56px, 72px" loading="lazy" />
+              <span class="playback-year">{year}</span>
+            </span>
+            <span class="eyebrow">Listen <span aria-hidden="true">↗</span></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Layout>

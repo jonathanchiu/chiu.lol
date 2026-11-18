@@ -2,12 +2,12 @@
 export const site = {
   name: 'Jonathan Chiu',
   email: 'jonathan@chiu.lol',
-  description: 'Jonathan Chiu. Software engineer. Music as Choo.',
+  description: 'Jonathan Chiu. A little about me, my work, and my music.',
   links: {
     soundcloud: 'https://soundcloud.com/jonathanchiu',
     spotify: 'https://open.spotify.com/artist/75XWZB98ncTvMwUP2sucIi',
     appleMusic: 'https://music.apple.com/us/artist/choo/1457527982',
-    instagram: 'https://instagram.com/ahhhhhchiu',
+    github: 'https://github.com/jonathanchiu/',
     linkedin: 'https://www.linkedin.com/in/jonathanchiu7',
   },
 };

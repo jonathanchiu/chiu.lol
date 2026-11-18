@@ -1,0 +1,23 @@
+---
+interface Props {
+  date?: string;
+  location?: string;
+  coordinates?: { latitude: number; longitude: number };
+}
+const { date, location, coordinates } = Astro.props;
+const formattedDate = date
+  ? new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
+  : undefined;
+---
+<figcaption class="photo-caption eyebrow">
+  <p>
+    {location && <span>{location}</span>}
+    {location && date && <> <span aria-hidden="true">·</span> </>}
+    {date && <time datetime={date}>{formattedDate}</time>}
+  </p>
+  {coordinates && (
+    <a class="photo-caption-map" href={`https://www.google.com/maps?q=${coordinates.latitude},${coordinates.longitude}`} target="_blank" rel="noopener noreferrer" aria-label={`View photo location on Google Maps${location ? `: ${location}` : ''}`}>
+      View on map <span aria-hidden="true">↗</span>
+    </a>
+  )}
+</figcaption>

@@ -1,34 +1,54 @@
 ---
-import { Image } from 'astro:assets';
+import PhotoImage from '../components/PhotoImage.astro';
+import PhotoLightbox from '../components/PhotoLightbox.astro';
+import PhotoCaption from '../components/PhotoCaption.astro';
 import Layout from '../layouts/Layout.astro';
-import { releases } from '../data/releases';
-const featured = releases[0];
+import home from '../assets/photos/home.jpg';
+import korea from '../assets/photos/korea.jpeg';
 ---
 <Layout>
-  <section class="page-intro" aria-labelledby="home-title">
-    <h1 id="home-title">Jonathan Chiu</h1>
-    <div class="intro-copy">
-      <p>Software engineer.<br />Music as <a href="/music/">Choo</a>.</p>
-    </div>
-  </section>
-
-  <section class="home-feature" aria-labelledby="featured-title">
-    <div class="section-heading">
-      <h2 class="eyebrow" id="featured-title">Selected music</h2>
-      <a href="/music/">All releases <span aria-hidden="true">↗</span></a>
-    </div>
-    <div class="feature-grid">
-      <div class="feature-copy">
-        <span class="eyebrow">Choo / {featured.date.slice(0, 4)}</span>
-        <h3><a href={`/music/#${featured.track}`}>{featured.title}</a></h3>
-        <a class="feature-listen" href={`/music/#${featured.track}`}>Listen <span aria-hidden="true">↗</span></a>
+  <section class="about-page" aria-labelledby="home-title">
+    <h1 id="home-title">I’m Jonathan.</h1>
+    <div class="about-content">
+      <div class="about-copy">
+        <div>
+        <p>Things I care about:</p>
+        <ul class="about-interests">
+          <li><a href="https://en.wikipedia.org/wiki/Chinatown,_Manhattan" target="_blank" rel="noopener noreferrer">Chinatown <span aria-hidden="true">↗</span></a></li>
+          <li><a href="/media/#movies">Film</a></li>
+          <li><a href="/music/">Music</a></li>
+          <li>Public transportation</li>
+        </ul>
+        </div>
+        <div>
+        <p>Things I enjoy:</p>
+        <ul class="about-interests">
+          <li><a href="/photography/">Photography</a></li>
+          <li>Running</li>
+          <li>Weightlifting</li>
+          <li>Whatever that feeling that washes over you is when you're sitting by an open window, sunset over the horizon, and a cool, gentle breeze rolls in</li>
+        </ul>
+        </div>
+        <div>
+        <p>Things that intrigue me:</p>
+        <ul class="about-interests">
+          <li><a href="https://en.wikipedia.org/wiki/Nostalgia" target="_blank" rel="noopener noreferrer">Nostalgia <span aria-hidden="true">↗</span></a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Time_dilation" target="_blank" rel="noopener noreferrer">Time dilation <span aria-hidden="true">↗</span></a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Timeline_of_the_far_future" target="_blank" rel="noopener noreferrer">Timeline of the far future <span aria-hidden="true">↗</span></a></li>
+        </ul>
+        </div>
       </div>
-      <figure class="featured-artwork">
-        <a class="release-artwork" href={`/music/#${featured.track}`} aria-label={`Listen to ${featured.title}`}>
-          <Image src={featured.artwork} alt={`${featured.title} cover artwork`} widths={[480, 720, 960, 1440]} sizes="(max-width: 700px) calc(100vw - 40px), (min-width: 1824px) 1128px, 62vw" loading="eager" fetchpriority="high" />
-        </a>
-        <figcaption class="artwork-caption"><span>01 / {featured.title}</span><span>{featured.date.slice(0, 4)}</span></figcaption>
-      </figure>
+    </div>
+    <div class="about-photos">
+        <figure>
+          <PhotoImage src={home} alt="Jonathan sitting at a table in a film photograph with a warm light leak." widths={[380, 760, 1140]} sizes="(max-width: 420px) calc(100vw - 40px), (max-width: 700px) 380px, (max-width: 1300px) 30vw, 380px" loading="eager" />
+          <PhotoCaption location="At home" date="2019-07-29" />
+        </figure>
+        <figure>
+          <PhotoImage src={korea} alt="Jonathan standing beside a pond in front of a pavilion in Korea." widths={[380, 760, 1140]} sizes="(max-width: 420px) calc(100vw - 40px), (max-width: 700px) 380px, (max-width: 1300px) 30vw, 380px" loading="lazy" />
+          <PhotoCaption location="Somewhere inside Gyeongbokgung Palace, Seoul, South Korea" date="2019-09-02" />
+        </figure>
     </div>
   </section>
+  <PhotoLightbox />
 </Layout>

@@ -1,0 +1,81 @@
+<dialog class="photo-lightbox" aria-label="Photo viewer">
+  <div class="photo-lightbox-toolbar eyebrow">
+    <div class="photo-lightbox-navigation">
+      <button type="button" data-previous aria-label="Previous photo">← Previous</button>
+      <span data-position aria-live="polite" aria-atomic="true"></span>
+      <button type="button" data-next aria-label="Next photo">Next →</button>
+    </div>
+    <button type="button" data-close autofocus>Close ×</button>
+  </div>
+  <div class="photo-lightbox-stage" aria-busy="false">
+    <img alt="" />
+    <p class="eyebrow" data-image-status role="status"></p>
+  </div>
+  <div class="photo-lightbox-caption"></div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.photo-lightbox');
+  if (dialog) {
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-photo-lightbox]'));
+    const image = dialog.querySelector<HTMLImageElement>('img')!;
+    const stage = dialog.querySelector<HTMLElement>('.photo-lightbox-stage')!;
+    const caption = dialog.querySelector<HTMLElement>('.photo-lightbox-caption')!;
+    const status = dialog.querySelector<HTMLElement>('[data-image-status]')!;
+    const position = dialog.querySelector<HTMLElement>('[data-position]')!;
+    const previous = dialog.querySelector<HTMLButtonElement>('[data-previous]')!;
+    const next = dialog.querySelector<HTMLButtonElement>('[data-next]')!;
+    let current = 0;
+    let opener: HTMLAnchorElement | undefined;
+    const show = (index: number) => {
+      current = index;
+      const link = links[index];
+      stage.setAttribute('aria-busy', 'true');
+      status.textContent = 'Loading photo…';
+      image.style.visibility = 'hidden';
+      image.alt = link.querySelector('img')?.alt ?? '';
+      image.src = link.href;
+      position.textContent = `${index + 1} / ${links.length}`;
+      previous.disabled = index === 0;
+      next.disabled = index === links.length - 1;
+      caption.replaceChildren();
+      const original = link.closest('figure')?.querySelector('figcaption');
+      if (original) {
+        const copy = document.createElement('div');
+        copy.className = original.className;
+        for (const child of original.childNodes) copy.append(child.cloneNode(true));
+        caption.append(copy);
+      }
+    };
+    image.addEventListener('load', () => {
+      image.style.visibility = 'visible';
+      status.textContent = '';
+      stage.setAttribute('aria-busy', 'false');
+    });
+    image.addEventListener('error', () => {
+      status.textContent = 'Couldn’t load this photo. Please try opening it again.';
+      stage.setAttribute('aria-busy', 'false');
+    });
+    links.forEach((link, index) => link.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      opener = link;
+      show(index);
+      dialog.showModal();
+      document.documentElement.classList.add('photo-viewer-open');
+    }));
+    previous.addEventListener('click', () => { if (current > 0) show(current - 1); });
+    next.addEventListener('click', () => { if (current < links.length - 1) show(current + 1); });
+    dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+    stage.addEventListener('click', (event) => { if (event.target === stage) dialog.close(); });
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft' && current > 0) { event.preventDefault(); show(current - 1); }
+      if (event.key === 'ArrowRight' && current < links.length - 1) { event.preventDefault(); show(current + 1); }
+    });
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('photo-viewer-open');
+      opener?.focus({ preventScroll: true });
+      image.removeAttribute('src');
+    });
+  }
+</script>

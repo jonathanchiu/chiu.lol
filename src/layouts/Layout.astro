@@ -12,10 +12,53 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+    <script is:inline>
+      (() => {
+        const key = 'chiu-theme';
+        const system = window.matchMedia('(prefers-color-scheme: dark)');
+        let preference = 'system';
+        try {
+          const saved = localStorage.getItem(key);
+          if (saved === 'light' || saved === 'dark') preference = saved;
+        } catch { /* System preference still works when storage is unavailable. */ }
+
+        const applyTheme = () => {
+          const theme = preference === 'system' ? (system.matches ? 'dark' : 'light') : preference;
+          document.documentElement.dataset.theme = theme;
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#191919' : '#ffffff');
+          const control = document.getElementById('theme-select');
+          if (control) control.value = preference;
+        };
+
+        applyTheme();
+        system.addEventListener('change', applyTheme);
+        window.addEventListener('storage', (event) => {
+          if (event.key !== key && event.key !== null) return;
+          preference = event.newValue === 'light' || event.newValue === 'dark' ? event.newValue : 'system';
+          applyTheme();
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+          const control = document.getElementById('theme-select');
+          if (!control) return;
+          control.value = preference;
+          control.addEventListener('change', () => {
+            preference = control.value;
+            try {
+              if (preference === 'system') localStorage.removeItem(key);
+              else localStorage.setItem(key, preference);
+            } catch { /* Keep the selected theme for this page. */ }
+            applyTheme();
+          });
+          control.closest('.theme-control').hidden = false;
+        });
+      })();
+    </script>
     <title>{title} — chiu.lol</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="chiu.lol" />
     <meta property="og:title" content={title} />
@@ -31,8 +74,11 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
         <a class="wordmark" href="/" aria-label="Jonathan Chiu, home">chiu.lol</a>
         <nav aria-label="Main navigation">
           <div class="nav-pages">
-          <a href="/" aria-current={path === '/' ? 'page' : undefined}>About</a>
-          <a href="/music/" aria-current={path === '/music' ? 'page' : undefined}>Music</a>
+            <a href="/" aria-current={path === '/' ? 'page' : undefined}>About</a>
+            <a href="/work/" aria-current={path === '/work' ? 'page' : undefined}>Work</a>
+            <a href="/music/" aria-current={path === '/music' || path.startsWith('/music/') ? 'page' : undefined}>Music</a>
+            <a href="/media/" aria-current={path === '/media' ? 'page' : undefined}>Film &amp; TV</a>
+            <a href="/photography/" aria-current={path === '/photography' ? 'page' : undefined}>Photography</a>
           </div>
           <a class="nav-contact" href={`mailto:${site.email}`}>Email</a>
         </nav>
@@ -41,8 +87,16 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
       <footer class="site-footer">
         <span class="copyright">© {new Date().getFullYear()} Jonathan Chiu</span>
         <div class="footer-links">
-          <a href={site.links.instagram}>Instagram</a>
-          <a href={site.links.linkedin}>LinkedIn</a>
+          <a target="_blank" rel="noopener noreferrer" href={site.links.github}>GitHub <span aria-hidden="true">↗</span></a>
+          <a target="_blank" rel="noopener noreferrer" href={site.links.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a>
+          <label class="theme-control" hidden>
+            <span>Theme</span>
+            <select id="theme-select" name="theme">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
         </div>
       </footer>
     </div>

@@ -1,0 +1,18 @@
+---
+import MediaCollection from '../components/MediaCollection.astro';
+import Layout from '../layouts/Layout.astro';
+import { films } from '../data/films';
+import { anime } from '../data/anime';
+import { kdramas } from '../data/kdrama';
+---
+<Layout title="Film & TV" description="Some of Jonathan Chiu’s favorite films, anime, and Korean dramas.">
+  <section class="page-intro music-intro" aria-labelledby="media-title">
+    <h1 id="media-title">Film &amp; TV</h1>
+    <div class="music-intro-copy">
+      <p class="music-description">Just some of my favorite films and TV shows throughout my life.</p>
+    </div>
+  </section>
+  <MediaCollection id="movies" title="Movies" source="Letterboxd" sourceUrl="https://letterboxd.com/" items={films} eager />
+  <MediaCollection id="anime" title="Anime" source="MyAnimeList" sourceUrl="https://myanimelist.net/" items={anime} />
+  <MediaCollection id="k-drama" title="K-Drama" source="MyDramaList" sourceUrl="https://mydramalist.com/" items={kdramas} preserveArtwork credits={[{ name: 'Wikipedia', url: 'https://en.wikipedia.org/' }, { name: 'MyDramaList', url: 'https://mydramalist.com/' }]} />
+</Layout>

@@ -1,0 +1,17 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  src: ImageMetadata;
+  fullSize?: string;
+  alt: string;
+  widths: number[];
+  sizes: string;
+  loading?: 'eager' | 'lazy';
+}
+const { src, fullSize, alt, widths, sizes, loading = 'lazy' } = Astro.props;
+const largeUrl = fullSize ?? (await getImage({ src, width: src.width, format: 'webp', quality: 95 })).src;
+---
+<a class="photo-enlarge" href={largeUrl} data-photo-lightbox aria-label={`Enlarge photo: ${alt}`}>
+  <Image src={src} alt={alt} widths={widths} sizes={sizes} loading={loading} quality={85} />
+</a>

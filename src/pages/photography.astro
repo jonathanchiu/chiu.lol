@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PhotoLightbox from '../components/PhotoLightbox.astro';
+import PhotographyCollection from '../components/PhotographyCollection.astro';
+import { sunsetPhotos, otherPhotos } from '../data/photography';
+---
+<Layout title="Photography" description="Photography by Jonathan Chiu.">
+  <section class="page-intro photography-intro" aria-labelledby="photography-title">
+    <h1 id="photography-title">Photography</h1>
+    <div class="photography-intro-copy">
+      <p>A dumping ground of photos I’ve taken throughout the years. I particularly enjoy sunsets and dusk in varying stages—according to Apple Photos, I have 1,800+ photos and videos labeled “Sunset,” wowzas!</p>
+      <div class="photography-gear">
+        <h2 class="eyebrow">Current gear</h2>
+        <ul>
+          <li>iPhone</li>
+          <li>Ricoh GR III</li>
+          <li>Canon EOS Rebel 2000</li>
+          <li>Pentax Espio 120SW II</li>
+        </ul>
+      </div>
+      <nav class="photography-sections" aria-label="Photography sections">
+        <a href="#sunsets">Sunsets &amp; dusk</a>
+        <a href="#other-photos">Other photos</a>
+      </nav>
+    </div>
+  </section>
+  <PhotographyCollection id="sunsets" title="Sunsets & dusk" photos={sunsetPhotos} eager />
+  <PhotographyCollection id="other-photos" title="Other photos" photos={otherPhotos} />
+  <PhotoLightbox />
+</Layout>

@@ -5,35 +5,42 @@ import { releases } from '../data/releases';
 import { site } from '../data/site';
 const formatDate = (date: string) => new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(date));
 ---
-<Layout title="Music by Choo" description="Songs by Choo, the music project of Jonathan Chiu. Listen to Who Cares?, Fool, Breathe, and Everytime.">
-  <section class="page-intro" aria-labelledby="listen">
+<Layout title="Music by Choo" description="Songs by Choo, the music project of Jonathan Chiu. Listen to releases and demos on Spotify and SoundCloud.">
+  <section class="page-intro music-intro" aria-labelledby="listen">
     <h1 id="listen">Music</h1>
-    <div class="intro-copy">
-      <p class="music-description">I (rarely) make music under the name Choo.</p>
+    <div class="music-intro-copy">
+      <p class="music-description">In a past life (maybe I’ll get back to it one day), I made music for fun as Choo, and some songs even found their way into random corners of the <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=choo+jonathanchiu+soundcloud">internet vlogosphere</a>. Here are some of them, along with some tunes I’ve been bumping throughout the years.</p>
       <div class="platform-links" aria-label="Listen to Choo">
-        <a href={site.links.spotify}>Spotify</a>
-        <a href={site.links.appleMusic}>Apple Music</a>
-        <a href={site.links.soundcloud}>SoundCloud</a>
+        <a target="_blank" rel="noopener noreferrer" href={site.links.soundcloud}>SoundCloud <span aria-hidden="true">↗</span></a>
+        <a target="_blank" rel="noopener noreferrer" href={site.links.spotify}>Spotify <span aria-hidden="true">↗</span></a>
+        <a target="_blank" rel="noopener noreferrer" href={site.links.appleMusic}>Apple Music <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
+  <aside class="listening-archive-link" aria-label="Listening archive">
+    <span class="eyebrow">Listening archive</span>
+    <a href="/music/playback/">My SoundCloud Playback playlists <span aria-hidden="true">→</span></a>
+    <span class="eyebrow">2016 — 2025</span>
+    <a class="listening-extra" href="https://open.spotify.com/playlist/37i9dQZF1CKMFBxUbxRIAg" target="_blank" rel="noopener noreferrer">Top played songs <span aria-hidden="true">↗</span></a>
+    <span class="eyebrow">Spotify</span>
+  </aside>
   <section class="releases" aria-labelledby="releases-title">
-    <div class="section-heading"><h2 class="eyebrow" id="releases-title">Discography</h2><span>{releases[0].date.slice(0, 4)} — {releases[releases.length - 1].date.slice(0, 4)} / {String(releases.length).padStart(2, '0')} releases</span></div>
+    <div class="section-heading"><h2 class="eyebrow" id="releases-title">Discography</h2><span>{releases[0].date.slice(0, 4)} — {releases[releases.length - 1].date.slice(0, 4)}</span></div>
     <div class="release-grid">
       {releases.map((release, index) => (
         <article class="release" id={release.track}>
           <div class="release-heading"><span class="eyebrow">{String(index + 1).padStart(2, '0')} / Choo</span><h3>{release.title}</h3></div>
-          <a class="release-artwork" href={`https://open.spotify.com/track/${release.track}`} aria-label={`Listen to ${release.title} on Spotify`}>
+          <a class="release-artwork" target="_blank" rel="noopener noreferrer" href={release.url} aria-label={`Listen to ${release.title} on ${release.platform}`}>
             <Image src={release.artwork} alt={`${release.title} cover artwork`} widths={[320, 480, 720, 960]} sizes="(max-width: 700px) calc(100vw - 40px), 33vw" width={960} height={960} loading={index === 0 ? 'eager' : 'lazy'} />
           </a>
           <div class="release-info">
             <time datetime={release.date}>{formatDate(release.date)}</time>
             <details class="listen-details">
               <summary aria-label={`Listen to ${release.title}`}>Listen</summary>
-              <div class="player-slot" data-track={release.track} data-title={release.title}></div>
-              <a class="player-fallback" href={`https://open.spotify.com/track/${release.track}`}>Open in Spotify</a>
+              <div class="player-slot" data-track={release.track} data-title={release.title} data-platform={release.platform}></div>
+              <a class="player-fallback" target="_blank" rel="noopener noreferrer" href={release.url}>Open in {release.platform} <span aria-hidden="true">↗</span></a>
             </details>
-            {release.youtube && <a class="video-link" href={release.youtube}>Music video <span aria-hidden="true">↗</span></a>}
+            {release.youtube && <a class="video-link" target="_blank" rel="noopener noreferrer" href={release.youtube}>Music video <span aria-hidden="true">↗</span></a>}
           </div>
         </article>
       ))}
@@ -41,7 +48,7 @@ const formatDate = (date: string) => new Intl.DateTimeFormat('en-US', { month: '
   </section>
 </Layout>
 <script>
-  // Contact Spotify only after the visitor chooses to open a player.
+  // Contact the streaming service only after the visitor opens a player.
   document.querySelectorAll<HTMLDetailsElement>('.listen-details').forEach((details) => {
     details.addEventListener('toggle', () => {
       const slot = details.querySelector<HTMLElement>('.player-slot');
@@ -52,10 +59,23 @@ const formatDate = (date: string) => new Intl.DateTimeFormat('en-US', { month: '
       }
       if (slot.childElementCount) return;
       const iframe = document.createElement('iframe');
-      iframe.src = `https://open.spotify.com/embed/track/${slot.dataset.track}?theme=0`;
+      const soundcloud = slot.dataset.platform === 'SoundCloud';
+      if (soundcloud) {
+        const params = new URLSearchParams({
+          url: `https://api.soundcloud.com/tracks/${slot.dataset.track}`,
+          auto_play: 'false',
+          visual: 'false',
+          show_artwork: 'false',
+          show_comments: 'false',
+          color: '#646464',
+        });
+        iframe.src = `https://w.soundcloud.com/player/?${params}`;
+      } else {
+        iframe.src = `https://open.spotify.com/embed/track/${slot.dataset.track}?theme=0`;
+      }
       iframe.title = `Listen to ${slot.dataset.title} by Choo on Spotify`;
       iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-      iframe.height = '152';
+      iframe.height = soundcloud ? '166' : '152';
       iframe.width = '100%';
       slot.append(iframe);
     });

@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { work } from '../data/work';
+import { site } from '../data/site';
+import { formatDuration, formatExperience } from '../utils/work-duration';
+
+const careerStart = work[0].roles[0].start;
+
+const formatDate = (date: string) => new Intl.DateTimeFormat('en-US', {
+  month: 'short', year: 'numeric', timeZone: 'UTC',
+}).format(new Date(`${date}-01T00:00:00Z`));
+
+
+---
+<Layout title="Work" description="Jonathan Chiu’s work history in software engineering, from Wayfair to Confido.">
+  <section class="page-intro work-intro" aria-labelledby="work-title">
+    <h1 id="work-title">Work</h1>
+    <div class="work-intro-copy">
+      <p>I’m a product-minded senior software engineer working across frontend and full-stack development. I try to take a low-ego, collaborative approach to my work and value clear, kind communication and thoughtful, constructive feedback.</p>
+      <p>My experience spans product-focused engineering, including growth, onboarding, checkout and payments, engagement and conversion, experimentation, performance, developer experience, platform work, and more.</p>
+      <div class="platform-links">
+        <a target="_blank" rel="noopener noreferrer" href={site.links.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a>
+        <a target="_blank" rel="noopener noreferrer" href={site.links.github}>GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="work-history" aria-labelledby="experience-title">
+    <div class="section-heading">
+      <h2 class="eyebrow" id="experience-title">Experience</h2>
+      <span data-experience-start={careerStart}>{formatExperience(careerStart)}</span>
+    </div>
+    <ol class="work-list">
+      {work.slice().reverse().map((workplace, index) => (
+        <li class="workplace">
+          <div class="workplace-heading">
+            <span class="eyebrow">{String(index + 1).padStart(2, '0')}</span>
+            <div class="company-identity">
+              <a class="company-link" target="_blank" rel="noopener noreferrer" href={workplace.website}>
+                <img
+                  class:list={['company-logo', workplace.logoStyle && `company-logo--${workplace.logoStyle}`]}
+                  src={workplace.logo.src}
+                  alt={workplace.company}
+                  width={workplace.logo.width}
+                  height={workplace.logo.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="company-link-arrow" aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <h3 class="company-name">{workplace.company}</h3>
+            <p class="company-industry eyebrow">{workplace.industry}</p>
+          </div>
+          <ul class="work-roles">
+            {workplace.roles.slice().reverse().map((role) => (
+              <li class="work-role">
+                <h4>{role.title}</h4>
+                <p class="work-dates">
+                  <time datetime={role.start}>{formatDate(role.start)}</time>
+                  {' — '}
+                  {role.end ? <time datetime={role.end}>{formatDate(role.end)}</time> : 'Present'}
+                  <span class="work-duration" data-current-role-start={role.end ? undefined : role.start}>{formatDuration(role.start, role.end)}</span>
+                </p>
+                {role.description && <p class="work-description">{role.description}</p>}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Layout>
+
+<script>
+  import { formatDuration, formatExperience } from '../utils/work-duration';
+
+  const updateWorkDates = () => {
+    document.querySelectorAll<HTMLElement>('[data-experience-start]').forEach((element) => {
+      const start = element.dataset.experienceStart;
+      if (start) element.textContent = formatExperience(start);
+    });
+    document.querySelectorAll<HTMLElement>('[data-current-role-start]').forEach((element) => {
+      const start = element.dataset.currentRoleStart;
+      if (start) element.textContent = formatDuration(start);
+    });
+  };
+
+  updateWorkDates();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) updateWorkDates();
+  });
+</script>
